@@ -3,20 +3,15 @@ from sqlalchemy.orm import Session
 import models, schemas
 from database import SessionLocal, engine
 
-# Otomatis membuat tabel di SQLite saat aplikasi berjalan
 models.Base.metadata.create_all(bind=engine)
-
 app = FastAPI(title="Tugas 3 API Haris")
 
-# Fungsi untuk mengelola koneksi database
 def get_db():
     db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
-
-# --- JAWABAN TUGAS START ---
 
 # 1. Endpoint GET /items/
 @app.get("/items/", response_model=list[schemas.ItemResponse])
@@ -32,13 +27,12 @@ def read_item(item_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Item tidak ditemukan")
     return item
 
-# --- JAWABAN TUGAS END ---
-
-# (BONUS) Endpoint POST: Wajib ada supaya kamu bisa isi data dummy untuk di-test
+# Endpoint POST
 @app.post("/items/", response_model=schemas.ItemResponse)
 def create_item(item: schemas.ItemCreate, db: Session = Depends(get_db)):
     db_item = models.Item(name=item.name, description=item.description)
     db.add(db_item)
     db.commit()
     db.refresh(db_item)
+
     return db_item
