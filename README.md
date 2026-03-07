@@ -23,3 +23,5 @@ Buka terminal, pastikan berada di direktori project, lalu jalankan perintah beri
     1. pip install fastapi uvicorn sqlalchemy pydantic
 Setelah itu jalankan di terminal menggunakan periintah ini :  
     2. uvicorn main:app --reload
+Setelah server berjalan, buka browser dan akses tautan dokumentasi interaktif (Swagger UI) untuk melakukan pengujian (create dan read data):
+👉 https://www.google.com/search?q=http://127.0.0.1:8000/docs
